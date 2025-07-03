@@ -3,4 +3,9 @@ numpy
 scikit-learn
 matplotlib
 seaborn
+plotly
+xgboost
+catboost
+lightgbm
+
 
