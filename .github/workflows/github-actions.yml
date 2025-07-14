@@ -12,7 +12,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Run executable bash script
-        run: bash ./run.sh all
+        run: bash ./run.sh all config.json
       - name: CAIE NYP Batch 3 Assessment
         run: |
           echo "Reminder to add AISG-AIAP as a collaborator in your repository"
