@@ -19,10 +19,16 @@ def main():
     df_clean = preprocess_data(df, model_type=model_type)
     
     # Train both the original model and the best model  GridSearchCV)
-    original_model, best_model, X_test, y_test = train_model(df_clean, model_type=model_type)
+    original_model, best_model, X_test, y_test, best_params  = train_model(df_clean, model_type=model_type)
     
-    # Evaluate both models
-    best_threshold_original, best_threshold_best = evaluate_model(original_model, best_model, X_test, y_test)
+    evaluate_model(
+        original_model,
+        best_model,
+        X_test,
+        y_test,
+        best_params=best_params,
+        model_type=model_type
+    )
 
     print(f"Pipeline completed for model: {model_type}")
 

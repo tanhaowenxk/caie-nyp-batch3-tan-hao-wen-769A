@@ -2,7 +2,7 @@
 from sklearn.metrics import classification_report, roc_auc_score, precision_recall_curve
 import numpy as np
 
-def evaluate_model(original_model, best_model, X_test, y_test):
+def evaluate_model(original_model, best_model, X_test, y_test, best_params=None, model_type=None):
     # For the original model get the best threshold for the highest F1 score
     print("Evaluating Original Model...")
     y_probs_original = original_model.predict_proba(X_test)[:, 1]
@@ -35,6 +35,9 @@ def evaluate_model(original_model, best_model, X_test, y_test):
 
     # Apply the best threshold for the best model
     y_pred_best = (y_probs_best >= best_threshold_best).astype(int)
+
+    if best_params and model_type:
+        print(f"\n[GridSearchCV] Best parameters for '{model_type}': {best_params}")
 
     # Print classification report and ROC AUC for the best model
     print("Best Model Classification Report:")

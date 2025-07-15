@@ -45,4 +45,4 @@ def train_model(df, model_type='logreg'):
     # Train the original model manually
     original_model.fit(X_train_sm, y_train_sm)
 
-    return original_model, best_model, X_test, y_test
+    return original_model, best_model, X_test, y_test, grid_search.best_params_
