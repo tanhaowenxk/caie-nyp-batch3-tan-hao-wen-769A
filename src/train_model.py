@@ -1,22 +1,23 @@
 # Training for the models
 import json
 import os
+from config import logreg, rf, xgb
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
 from imblearn.combine import SMOTETomek
 from sklearn.model_selection import train_test_split, GridSearchCV
 
-
-# Model Parameterization: allows to experiment with different hyperparameters without changing the script.
-def load_config():
-    config_path = os.path.join(os.path.dirname(__file__), 'config.json')
-    with open(config_path) as f:
-        return json.load(f)
-
 def train_model(df, model_type='logreg'):
-    config = load_config()
-    hyperparameters = config[model_type]
+    # Get the hyperparameters from config.py
+    if model_type == 'logreg':
+        hyperparameters = logreg
+    elif model_type == 'rf':
+        hyperparameters = rf
+    elif model_type == 'xgb':
+        hyperparameters = xgb
+    else:
+        raise ValueError(f"Unsupported model type: {model_type}")
     # Get the features and the target
     X = df.drop(columns=['Subscription Status'])
     y = df['Subscription Status']
