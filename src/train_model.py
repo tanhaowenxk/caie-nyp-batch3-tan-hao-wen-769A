@@ -25,7 +25,7 @@ def train_model(df, model_type='logreg'):
     #Random state is to be able to keep the result same every time the code is run.
     X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.2, random_state=42)
     #SMOTETomek is to balance the classes , it oversample the minority class which is the yes(1)
-    # and remove bordeline majority class samples.
+    # and remove borderline majority class samples.
     smote_tomek = SMOTETomek(random_state=42)
     X_train_sm, y_train_sm = smote_tomek.fit_resample(X_train, y_train)
 
