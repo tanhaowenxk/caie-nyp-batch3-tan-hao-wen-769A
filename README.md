@@ -110,13 +110,13 @@ Flexibility for Non-Linear Effects: Trees and boosting can still learn complex i
 
 ### Pipeline Overview
 
-1. Data Loading | `src/load_data.py` | Connects to `bmarket.db` and loads the `bank_marketing` table into a Pandas DataFrame.
-2. Preprocessing & Feature Engineering | `src/preprocess.py` | Cleans/imputes fields, maps education→years, creates contact flags, encodes loans/defaults, scales numeric features, and applies one-hot or label encoding.
-3. Model Training | `src/train_model.py` | Splits data, applies SMOTE-Tomek balancing, reads hyperparameter grids from `config.json`, runs GridSearchCV, and fits both baseline and tuned models.
-4. Evaluation & Thresholding | `src/evaluate.py` | Generates precision–recall curves, selects F1-optimal thresholds, prints classification reports and ROC-AUC scores.
-5. Orchestration | `src/main.py` | Parses CLI args (`logreg`, `rf`, `xgb`), then involves load → preprocess → train → evaluate in order, reporting completion.
-6. Configuration | `src/config.py` | Defines hyperparameter grids for each model for GridSearchCV.
-7. Run Script | `run.sh` | User entrypoint: `./run.sh <model>` to run one model or `./run.sh all` to iterate through all three.
+| 1. Data Loading | `src/load_data.py` | Connects to `bmarket.db` and loads the `bank_marketing` table into a Pandas DataFrame. |
+| 2. Preprocessing & Feature Engineering | `src/preprocess.py` | Cleans/imputes fields, maps education→years, creates contact flags, encodes loans/defaults, scales numeric features, and applies one-hot or label encoding. |
+| 3. Model Training | `src/train_model.py` | Splits data, applies SMOTE-Tomek balancing, reads hyperparameter grids from `config.json`, runs GridSearchCV, and fits both baseline and tuned models. |
+| 4. Evaluation & Thresholding | `src/evaluate.py` | Generates precision–recall curves, selects F1-optimal thresholds, prints classification reports and ROC-AUC scores. |
+| 5. Orchestration | `src/main.py` | Parses CLI args (`logreg`, `rf`, `xgb`), then involves load → preprocess → train → evaluate in order, reporting completion. |
+| 6. Configuration | `src/config.py` | Defines hyperparameter grids for each model for GridSearchCV.
+| 7. Run Script | `run.sh` | User entrypoint: `./run.sh <model>` to run one model or `./run.sh all` to iterate through all three. |
 
 To execute the pipeline:
 
