@@ -266,7 +266,7 @@ Pipeline completed for model: xgb
 Finished: xgb
 
 **Key Takeaways:**
-Across all three models, the XGBoost classifier emerges as the best choice for your task when prioritizing the balanced F1-score, while still maintaining strong discrimination ability:
+Across all three models, the XGBoost classifier emerges as the best choice when prioritizing the balanced F1-score, while still maintaining strong discrimination ability:
 
 Highest F1-Score (0.3792): XGBoost achieves the top F1-score among the three, indicating the best trade-off between precision and recall for the positive class.
 
@@ -274,7 +274,7 @@ Strong ROC-AUC (0.7117): Although slightly below Logistic Regression’s ROC-AUC
 
 Balanced Precision & Recall: With a precision of 0.4867 and recall of 0.3106 at the optimal threshold, XGBoost better balances false positives and false negatives compared to the Original and Grid-searched Random Forest models.
 
-Why XGBoostClassifier excels for your dataset:
+XGBoostClassifier:
 
 Gradient Boosting Ensemble: Builds trees sequentially, where each new tree corrects errors made by the previous ones—this focused learning reduces bias and variance.
 
