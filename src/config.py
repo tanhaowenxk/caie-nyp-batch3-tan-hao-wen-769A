@@ -1,4 +1,4 @@
-#Easy configuration of GVSearch parameters
+# Easy configuration of GVSearch parameters
 logreg = {
     "C": [0.01, 0.1, 1, 10],
     "penalty": ["l1", "l2"],
@@ -21,3 +21,5 @@ xgb = {
     "subsample": [0.8],
     "colsample_bytree": [0.8]
 }
+
+
