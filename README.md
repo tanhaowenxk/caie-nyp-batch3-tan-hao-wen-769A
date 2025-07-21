@@ -2,7 +2,7 @@
 
 ## Background
 
-AI-Vive-Banking, a Portuguese financial institution, has been running outbound telephone campaigns to persuade existing and potential clients to subscribe to a term-deposit product. Over multiple campaign waves, the bank’s IT and marketing teams have logged both demographic details (age, occupation, marital status, education, credit default history, existing loans) and call-centric metrics (contact method, number of calls this campaign, number of days since last contact) into a SQLite database (bmarket.db). This rich dataset—while noted to possibly contain synthetic or noisy entries—forms the basis for building and evaluating predictive models that can pinpoint which customers are most likely to say “yes” to a term deposit, thereby helping the bank streamline its marketing spend and boost conversion rates.
+AI-Vive-Banking, a Portuguese financial institution, has been running outbound telephone campaigns to persuade existing and potential clients to subscribe to a term-deposit product. Over multiple campaign waves, the bank’s IT and marketing teams have logged both demographic details (age, occupation, marital status, education, credit default history, existing loans) and call-centric metrics (contact method, number of calls this campaign, number of days since last contact) into a SQLite database (bmarket.db). This rich dataset while noted to possibly contain synthetic or noisy entries forms the basis for building and evaluating predictive models that can pinpoint which customers are most likely to say “yes” to a term deposit, thereby helping the bank streamline its marketing spend and boost conversion rates.
 
 ## Objective
 
@@ -136,7 +136,7 @@ ML model: Used SMOTETomek. SMOTE alone underperformed, SMOTETomek gave the best 
 
 #### Choice of Models
 
-Because task is to predict a relatively rare event (term‐deposit subscription) from a mix of numerical and categorical features—and because interpretability, training speed, and handling of class imbalance all matter —Thus selected these mdoels:
+Because task is to predict a relatively rare event (term‐deposit subscription) from a mix of numerical and categorical features and because interpretability, training speed, and handling of class imbalance all matter Thus selected these mdoels:
 
 1. **Logistic Regression**
 
@@ -279,7 +279,7 @@ Balanced Precision & Recall: With a precision of 0.4867 and recall of 0.3106 at 
 
 XGBoostClassifier:
 
-Gradient Boosting Ensemble: Builds trees sequentially, where each new tree corrects errors made by the previous ones—this focused learning reduces bias and variance.
+Gradient Boosting Ensemble: Builds trees sequentially, where each new tree corrects errors made by the previous ones this focused learning reduces bias and variance.
 
 Regularization Controls: Built-in L1/L2 regularization parameters help prevent overfitting, which is crucial when handling noisy or synthetic data.
 
@@ -302,7 +302,7 @@ Evaluated each model using four complementary metrics to capture both classifica
 2. **Recall**
 
    - **Definition:** Of all true subscribers, the percentage model correctly flags.
-   - **Why it matters:** Each missed subscriber is a lost revenue opportunity. Maximizing recall ensures we capture as many “yes” leads as possible—even if it means a few extra false positives.
+   - **Why it matters:** Each missed subscriber is a lost revenue opportunity. Maximizing recall ensures we capture as many “yes” leads as possible even if it means a few extra false positives.
 
 3. **F1 Score**
 
@@ -318,7 +318,7 @@ Evaluated each model using four complementary metrics to capture both classifica
 ##### Why F1 Score Is the Top Priority
 
 - **Balanced Call Efficiency & Coverage:**  
-  In imbalanced, neither extreme precision nor extreme recall alone captures the business need. F1 score balances both—ensuring don’t flood the call centre with too many unlikely leads (precision) while still catching the bulk of true subscribers (recall).
+  In imbalanced, neither extreme precision nor extreme recall alone captures the business need. F1 score balances both ensuring don’t flood the call centre with too many unlikely leads (precision) while still catching the bulk of true subscribers (recall).
 
 - **Cost–Benefit Alignment:**  
   Each call incurs a cost. A model tuned for maximum recall might flag too many false positives, wasting resources, whereas a model tuned solely for precision might miss valuable subscribers. Optimizing F1 maintains an optimal trade-off, maximizing net revenue per call.
@@ -330,6 +330,6 @@ Evaluated each model using four complementary metrics to capture both classifica
   By targeting F1, select a probability cutoff that jointly maximizes precision and recall. This leads to a stable operating point where small shifts in call-centre capacity or campaign budget do not disproportionately degrade performance.
 
 - **Holistic Performance Metric:**  
-  Unlike ROC-AUC—which focuses on ranking—and recall—which focuses on coverage—F1 gives a single, actionable number reflecting real-world trade-offs. It directly answers the question: “What proportion of calls will reach actual subscribers, while still finding as many subscribers as possible?”
+  Unlike ROC-AUC which focuses on ranking and recall which focuses on coverage F1 gives a single, actionable number reflecting real-world trade-offs. It directly answers the question: “What proportion of calls will reach actual subscribers, while still finding as many subscribers as possible?”
 
 In summary, optimizing for F1 score ensures the model delivers both efficient and comprehensive subscriber outreach, aligning precisely with goals of cost control and revenue growth.
