@@ -12,6 +12,8 @@ Full Name: Tan Hao Wen
 Email address: 234733T@mymail.nyp.edu.sg
 
 Folder structure:
+
+```
 ├── src
 │ ├── config.py # For easy configuration for GridSearchCV parameters
 │ └── evaluate.py # Evaluate for the model
@@ -24,6 +26,7 @@ Folder structure:
 ├── README.md # Overview and explain of the model used and evaluation
 ├── requirements.txt # For the libraries needed
 └── run.sh # To run the pipeline
+```
 
 ## Environment & Dependencies
 
@@ -40,18 +43,18 @@ imbalanced-learn == 0.13.0
 
 ## Exploratory Data Analysis
 
-Our exploratory analysis surfaced several key insights that directly informed our preprocessing pipeline:
+Exploratory analysis surfaced several key insights that directly informed preprocessing pipeline:
 
-- **Class imbalance:** Only ~11–12% of customers subscribed. We applied **SMOTE OR SMOTE-Tomek** to rebalance the training set, improving recall without excessively inflating false positives.
-- **Age outliers:** Records with `Age < 18` or `Age > 100` are invalid (minors can’t open term deposits; centenarians are likely data errors). We filtered ages to the **18–100** range, then applied **StandardScaler** to normalize the remaining distribution.
-- **Campaign Calls extremes:** A few customers had ≥ 50 calls. Rather than discard these outliers, we retained them and scaled the feature so that our models handle extreme values naturally.
-- **Previous Contact sentinel:** A value of `999` in **Previous Contact Days** indicates “never contacted.” We converted this into a binary **Had Previous Contact** flag.
-- **Missing/unknown flags:** For loan and default fields, we mapped `yes → 1`, `no → 0`, and `unknown → –1` so that “unknown” remains an informative category.
-- **Low numeric correlation:** All numeric features showed |r| < 0.3, so we retained the full feature set rather than drop potentially useful predictors.
+- **Class imbalance:** Only ~11–12% of customers subscribed.Applied **SMOTE OR SMOTE-Tomek** to rebalance the training set, improving recall without excessively inflating false positives.
+- **Age outliers:** Records with `Age < 18` or `Age > 100` are invalid (minors can’t open term deposits; centenarians are likely data errors). Filtered ages to the **18–100** range, then applied **StandardScaler** to normalize the remaining distribution.
+- **Campaign Calls extremes:** A few customers had ≥ 50 calls. Rather than discard these outliers, retained them and scaled the feature so that models handle extreme values naturally.
+- **Previous Contact sentinel:** A value of `999` in **Previous Contact Days** indicates “never contacted.” converted this into a binary **Had Previous Contact** flag.
+- **Missing/unknown flags:** For loan and default fields, mapped `yes → 1`, `no → 0`, and `unknown → –1` so that “unknown” remains an informative category.
+- **Low numeric correlation:** All numeric features showed |r| < 0.3, so retained the full feature set rather than drop potentially useful predictors.
 
-### Evaluation & Conclusion
+### Evaluation & Findings
 
-Filtering out-of-range ages improved data integrity and prevented scaling distortions. Standardizing continuous variables ensured stable convergence for both linear and gradient-based models. Our binary/ternary mappings preserved sentinel information without bloating the feature space. Addressing class imbalance with SMOTE-Tomek delivered measurable gains in recall and F1. Finally, low inter-feature correlation allowed us to keep all predictors, simplifying the pipeline and enhancing interpretability. These EDA-driven choices underpin the robustness and performance of our final models.
+Filtering out-of-range ages improved data integrity and prevented scaling distortions. Standardizing continuous variables ensured stable convergence for both linear and gradient-based models. Using binary/ternary mappings preserved sentinel information without bloating the feature space. Addressing class imbalance with SMOTE-Tomek delivered measurable gains in recall and F1. Finally, low inter-feature correlation allowed us to keep all predictors, simplifying the pipeline and enhancing interpretability. These EDA-driven choices underpin the robustness and performance of final models.
 
 #### Feature Engineering
 
@@ -133,7 +136,7 @@ ML model: Used SMOTETomek. SMOTE alone underperformed, SMOTETomek gave the best 
 
 #### Choice of Models
 
-Because our task is to predict a relatively rare event (term‐deposit subscription) from a mix of numerical and categorical features—and because interpretability, training speed, and handling of class imbalance all matter —Thus selected these mdoels:
+Because task is to predict a relatively rare event (term‐deposit subscription) from a mix of numerical and categorical features—and because interpretability, training speed, and handling of class imbalance all matter —Thus selected these mdoels:
 
 1. **Logistic Regression**
 
@@ -152,9 +155,9 @@ Because our task is to predict a relatively rare event (term‐deposit subscript
    - **Fine-Grained Control**: Hyperparameters like learning rate and subsample let us balance precision vs. recall.
    - **State-of-the-Art Performance**: Often achieves the highest F1 and ROC-AUC by sequentially correcting earlier errors, which is crucial for capturing the minority “yes” class.
 
-By combining interpretability (Logistic Regression), robustness to non-linearities (Random Forest), and high-performance boosting (XGBoost), we cover a spectrum of strengths and ensure reliable subscription predictions.
+By combining interpretability (Logistic Regression), robustness to non-linearities (Random Forest), and high-performance boosting (XGBoost), cover a spectrum of strengths and ensure reliable subscription predictions.
 
-Each model ships with default hyperparameters (e.g. C=1.0 for Logistic Regression, n_estimators=100 for Random Forest). To tailor performance to our imbalanced term-deposit dataset, customized hyperparameter grids in config.py and invoked GridSearchCV with scoring='f1'. This tuning process systematically searches for the combination of settings that maximizes F1 score, yielding models better aligned with the business goal of balancing true-positive capture against false-positive waste.
+Each model ships with default hyperparameters (e.g. C=1.0 for Logistic Regression, n_estimators=100 for Random Forest). To tailor performance to imbalanced term-deposit dataset, customized hyperparameter grids in config.py and invoked GridSearchCV with scoring='f1'. This tuning process systematically searches for the combination of settings that maximizes F1 score, yielding models better aligned with the business goal of balancing true-positive capture against false-positive waste.
 
 #### Classification reports
 
@@ -285,11 +288,11 @@ Handling Nonlinearities & Interactions: Captures complex feature interactions au
 Robust to Imbalance with Custom Losses: Allows specifying evaluation metrics (like F1) directly in training and supports weighting or tweaking objective functions to account for class imbalance.
 
 - **Recall vs. F1 trade-off:** Random Forest maximizes recall but sacrifices precision, while XGBoost strikes the best balance (highest F1).
-- **Overall discrimination:** Logistic Regression edges out slightly in ROC-AUC, but XGBoost’s balanced F1 makes it the top performer for our imbalanced target.
+- **Overall discrimination:** Logistic Regression edges out slightly in ROC-AUC, but XGBoost’s balanced F1 makes it the top performer for the imbalanced target.
 
 #### Metrics used for Evaluation
 
-We evaluated each model using four complementary metrics to capture both classification accuracy and ranking quality, then prioritized Recall and ROC-AUC to align with our business goals:
+Evaluated each model using four complementary metrics to capture both classification accuracy and ranking quality, then prioritized Recall and ROC-AUC to align with the business goals:
 
 1. **Precision**
 
@@ -298,35 +301,35 @@ We evaluated each model using four complementary metrics to capture both classif
 
 2. **Recall**
 
-   - **Definition:** Of all true subscribers, the percentage our model correctly flags.
+   - **Definition:** Of all true subscribers, the percentage model correctly flags.
    - **Why it matters:** Each missed subscriber is a lost revenue opportunity. Maximizing recall ensures we capture as many “yes” leads as possible—even if it means a few extra false positives.
 
 3. **F1 Score**
 
    - **Definition:** The harmonic mean of precision and recall.
-   - **Why it matters:** Balances the trade-off between over-calling (false positives) and under-calling (false negatives). In our imbalanced scenario, F1 gives a single measure of overall effectiveness.
+   - **Why it matters:** Balances the trade-off between over-calling (false positives) and under-calling (false negatives). In imbalanced scenario, F1 gives a single measure of overall effectiveness.
 
 4. **ROC-AUC**
    - **Definition:** Area under the Receiver Operating Characteristic curve, summarizing how well the model ranks subscribers vs. non-subscribers across all thresholds.
-   - **Why it matters:** A high AUC means marketing can confidently prioritize highest-scoring leads, even if we adjust our calling threshold over time.
+   - **Why it matters:** A high AUC means marketing can confidently prioritize highest-scoring leads, even if adjust calling threshold over time.
 
 ---
 
-##### Why F1 Score Is Our Top Priority
+##### Why F1 Score Is the Top Priority
 
 - **Balanced Call Efficiency & Coverage:**  
-  In our imbalanced setting, neither extreme precision nor extreme recall alone captures the business need. F1 score balances both—ensuring we don’t flood the call centre with too many unlikely leads (precision) while still catching the bulk of true subscribers (recall).
+  In imbalanced, neither extreme precision nor extreme recall alone captures the business need. F1 score balances both—ensuring don’t flood the call centre with too many unlikely leads (precision) while still catching the bulk of true subscribers (recall).
 
 - **Cost–Benefit Alignment:**  
   Each call incurs a cost. A model tuned for maximum recall might flag too many false positives, wasting resources, whereas a model tuned solely for precision might miss valuable subscribers. Optimizing F1 maintains an optimal trade-off, maximizing net revenue per call.
 
 - **EDA-Driven Insights:**  
-  Our exploratory analysis showed that subscribers are scattered across overlapping customer segments rather than concentrated in a single group. This means some “sure-bet” leads coexist with harder-to-spot prospects. F1 score rewards a model that performs well on both the obvious and subtle cases, rather than over-fitting to only one cohort.
+   Showed that subscribers are scattered across overlapping customer segments rather than concentrated in a single group. This means some “sure-bet” leads coexist with harder-to-spot prospects. F1 score rewards a model that performs well on both the obvious and subtle cases, rather than over-fitting to only one cohort.
 
 - **Threshold Robustness:**  
-  By targeting F1, we select a probability cutoff that jointly maximizes precision and recall. This leads to a stable operating point where small shifts in call-centre capacity or campaign budget do not disproportionately degrade performance.
+  By targeting F1, select a probability cutoff that jointly maximizes precision and recall. This leads to a stable operating point where small shifts in call-centre capacity or campaign budget do not disproportionately degrade performance.
 
 - **Holistic Performance Metric:**  
-  Unlike ROC-AUC—which focuses on ranking—and recall—which focuses on coverage—F1 gives a single, actionable number reflecting real-world trade-offs. It directly answers the question: “What proportion of our calls will reach actual subscribers, while still finding as many subscribers as possible?”
+  Unlike ROC-AUC—which focuses on ranking—and recall—which focuses on coverage—F1 gives a single, actionable number reflecting real-world trade-offs. It directly answers the question: “What proportion of calls will reach actual subscribers, while still finding as many subscribers as possible?”
 
-In summary, optimizing for F1 score ensures our model delivers both efficient and comprehensive subscriber outreach, aligning precisely with our dual goals of cost control and revenue growth.
+In summary, optimizing for F1 score ensures the model delivers both efficient and comprehensive subscriber outreach, aligning precisely with goals of cost control and revenue growth.
