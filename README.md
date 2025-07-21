@@ -125,7 +125,7 @@ Flexibility for Non-Linear Effects: Trees and boosting can still learn complex i
 
 To execute the pipeline:
 
-1. Create a virtual environment with python version 3.11 inside the folder
+1. Create a virtual environment with python version 3.11.9 inside the folder
 2. Activate the virtual environment example: source venv/bin/activate
 3. download libraries using the requirements file
 4. Add in the data folder with bmarket.db into the folder
